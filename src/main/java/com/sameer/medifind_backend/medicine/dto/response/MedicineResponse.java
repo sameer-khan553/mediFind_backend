@@ -20,8 +20,7 @@ public class MedicineResponse {
 
     private String genericName;
 
-    private String brandName;
-
+    private String brand;
     private String dosageForm;
 
     private String strength;

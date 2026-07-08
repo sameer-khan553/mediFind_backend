@@ -25,13 +25,14 @@ public class Medicine extends BaseEntity {
     @Column(nullable = false)
     private String genericName;
 
-    @Column(nullable = false)
-    private String brandName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "brand_id", nullable = false)
+    private Brand brand;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String dosageForm;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String strength;
 
     @Column(nullable = false)

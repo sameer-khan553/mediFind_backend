@@ -14,7 +14,7 @@ public class MedicineMapper {
                 .name(medicine.getName())
                 .sku(medicine.getSku())
                 .genericName(medicine.getGenericName())
-                .brandName(medicine.getBrandName())
+                .brand(medicine.getBrand().getName())
                 .dosageForm(medicine.getDosageForm())
                 .strength(medicine.getStrength())
                 .prescriptionRequired(medicine.getPrescriptionRequired())
