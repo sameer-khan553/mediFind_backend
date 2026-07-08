@@ -79,4 +79,31 @@ public class PharmacyController {
                 pharmacyService.getAll()
         );
     }
+
+    @PatchMapping("/{id}/verify")
+    public ResponseEntity<PharmacyResponse> verify(
+            @PathVariable UUID id) {
+
+        return ResponseEntity.ok(
+                pharmacyService.verify(id)
+        );
+    }
+
+    @GetMapping("/city/{city}")
+    public ResponseEntity<List<PharmacyResponse>> searchByCity(
+            @PathVariable String city) {
+
+        return ResponseEntity.ok(
+                pharmacyService.searchByCity(city)
+        );
+    }
+
+    @GetMapping("/pincode/{pincode}")
+    public ResponseEntity<List<PharmacyResponse>> searchByPincode(
+            @PathVariable String pincode) {
+
+        return ResponseEntity.ok(
+                pharmacyService.searchByPincode(pincode)
+        );
+    }
 }

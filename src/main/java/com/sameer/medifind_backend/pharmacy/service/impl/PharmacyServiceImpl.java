@@ -155,4 +155,37 @@ public class PharmacyServiceImpl implements PharmacyService {
                 .toList();
     }
 
+    @Override
+    public PharmacyResponse verify(UUID id) {
+
+        Pharmacy pharmacy = pharmacyRepository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Pharmacy not found"));
+
+        pharmacy.setVerified(true);
+
+        Pharmacy updated = pharmacyRepository.save(pharmacy);
+
+        return pharmacyMapper.toResponse(updated);
+    }
+
+    @Override
+    public List<PharmacyResponse> searchByCity(String city) {
+
+        return pharmacyRepository
+                .findByAddress_CityIgnoreCase(city)
+                .stream()
+                .map(pharmacyMapper::toResponse)
+                .toList();
+    }
+
+    @Override
+    public List<PharmacyResponse> searchByPincode(String pincode) {
+
+        return pharmacyRepository
+                .findByAddress_Pincode(pincode)
+                .stream()
+                .map(pharmacyMapper::toResponse)
+                .toList();
+    }
 }
