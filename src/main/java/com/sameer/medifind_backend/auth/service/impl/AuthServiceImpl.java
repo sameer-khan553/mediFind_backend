@@ -5,6 +5,8 @@ import com.sameer.medifind_backend.auth.dto.request.RegisterRequest;
 import com.sameer.medifind_backend.auth.dto.response.AuthResponse;
 import com.sameer.medifind_backend.auth.service.AuthService;
 import com.sameer.medifind_backend.exception.ResourceAlreadyExistsException;
+import com.sameer.medifind_backend.exception.ResourceNotFoundException;
+import com.sameer.medifind_backend.security.jwt.JwtService;
 import com.sameer.medifind_backend.user.entity.User;
 import com.sameer.medifind_backend.user.enums.AccountStatus;
 import com.sameer.medifind_backend.user.enums.Role;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
+    private final JwtService jwtService;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -43,7 +46,10 @@ public class AuthServiceImpl implements AuthService {
 
         userRepository.save(user);
 
+        String token = jwtService.generateToken(user.getEmail());
+
         return AuthResponse.builder()
+                .token(token)
                 .email(user.getEmail())
                 .role(user.getRole().name())
                 .message("Registration Successful")
@@ -53,7 +59,20 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public AuthResponse login(LoginRequest request) {
 
-        return null;
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("Invalid Credentials"));
 
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new ResourceNotFoundException("Invalid Credentials");
+        }
+
+        String token = jwtService.generateToken(user.getEmail());
+
+        return AuthResponse.builder()
+                .token(token)
+                .email(user.getEmail())
+                .role(user.getRole().name())
+                .message("Login Successful")
+                .build();
     }
 }
