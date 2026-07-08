@@ -1,6 +1,8 @@
 package com.sameer.medifind_backend.medicine.entity;
 
 import com.sameer.medifind_backend.common.entity.BaseEntity;
+import com.sameer.medifind_backend.medicine.enums.DosageForm;
+import com.sameer.medifind_backend.medicine.enums.MedicineStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -29,8 +31,9 @@ public class Medicine extends BaseEntity {
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
 
-    @Column(nullable = false, length = 50)
-    private String dosageForm;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DosageForm dosageForm;
 
     @Column(nullable = false, length = 50)
     private String strength;
@@ -51,5 +54,20 @@ public class Medicine extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "manufacturer_id")
     private Manufacturer manufacturer;
+
+
+    @Enumerated(EnumType.STRING)
+    @Builder.Default
+    @Column(nullable = false)
+    private MedicineStatus status = MedicineStatus.ACTIVE;
+
+    @Column(nullable = false, unique = true)
+    private String barcode;
+
+    @Column(length = 20)
+    private String hsnCode;
+
+    @Column(nullable = false)
+    private String packSize;
 
 }
