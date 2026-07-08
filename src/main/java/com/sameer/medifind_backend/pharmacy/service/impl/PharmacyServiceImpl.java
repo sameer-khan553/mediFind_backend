@@ -1,5 +1,4 @@
 package com.sameer.medifind_backend.pharmacy.service.impl;
-
 import com.sameer.medifind_backend.exception.ResourceAlreadyExistsException;
 import com.sameer.medifind_backend.exception.ResourceNotFoundException;
 import com.sameer.medifind_backend.pharmacy.dto.request.RegisterPharmacyRequest;
@@ -15,7 +14,6 @@ import com.sameer.medifind_backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.UUID;
 
