@@ -4,6 +4,7 @@ import com.sameer.medifind_backend.auth.dto.request.LoginRequest;
 import com.sameer.medifind_backend.auth.dto.request.RegisterRequest;
 import com.sameer.medifind_backend.auth.dto.response.AuthResponse;
 import com.sameer.medifind_backend.auth.service.AuthService;
+import com.sameer.medifind_backend.exception.ResourceAlreadyExistsException;
 import com.sameer.medifind_backend.user.entity.User;
 import com.sameer.medifind_backend.user.enums.AccountStatus;
 import com.sameer.medifind_backend.user.enums.Role;
@@ -23,11 +24,11 @@ public class AuthServiceImpl implements AuthService {
     public AuthResponse register(RegisterRequest request) {
 
         if (userRepository.existsByEmail(request.getEmail())) {
-            throw new RuntimeException("Email already exists");
+            throw new ResourceAlreadyExistsException("Email already exists");
         }
 
         if (userRepository.existsByPhone(request.getPhone())) {
-            throw new RuntimeException("Phone number already exists");
+            throw new ResourceAlreadyExistsException("Phone number already exists");
         }
 
         User user = User.builder()
