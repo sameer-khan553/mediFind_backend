@@ -16,23 +16,29 @@ public class MedicineResponse {
 
     private String name;
 
-    private String sku;
-
     private String genericName;
 
-    private String brand;
-    private String dosageForm;
+    private String sku;
 
-    private String strength;
-
-    private Boolean prescriptionRequired;
-
-    private String storageCondition;
-
-    private BigDecimal mrp;
+    private String barcode;
 
     private String category;
 
     private String manufacturer;
 
+    private String brand;
+
+    private String dosageForm;
+
+    private String strength;
+
+    private String packSize;
+
+    private BigDecimal mrp;
+
+    private Boolean prescriptionRequired;
+
+    private String storageCondition;
+
+    private String status;
 }

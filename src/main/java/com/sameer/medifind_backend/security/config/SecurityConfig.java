@@ -42,6 +42,16 @@ public class SecurityConfig {
                                 "/api/v1/pharmacy/**"
                         ).hasRole("PHARMACY")
 
+                        .requestMatchers("/api/v1/manufacturers/**")
+                        .hasRole("ADMIN")
+
+
+                        .requestMatchers("/api/v1/categories/**")
+                        .hasRole("ADMIN")
+
+                        .requestMatchers("/api/v1/brands/**")
+                        .hasRole("ADMIN")
+
                         .anyRequest()
                         .authenticated()
                 )
