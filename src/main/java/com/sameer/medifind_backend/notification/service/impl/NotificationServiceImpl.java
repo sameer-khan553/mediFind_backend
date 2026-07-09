@@ -15,7 +15,8 @@ import java.time.LocalDateTime;
 @Service
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
-    private final NotificationService notificationService;
+
+
     private final JavaMailSender mailSender;
     private final NotificationRepository notificationRepository;
 
