@@ -1,4 +1,6 @@
 package com.sameer.medifind_backend.medicine.dto.request;
+
+import com.sameer.medifind_backend.medicine.enums.DosageForm;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -16,33 +18,36 @@ public class CreateMedicineRequest {
     private String name;
 
     @NotBlank
-    private String sku;
-
-    @NotBlank
     private String genericName;
 
     @NotBlank
-    private String brandName;
+    private String sku;
 
     @NotBlank
-    private String dosageForm;
+    private String barcode;
+
+    @NotNull
+    private UUID categoryId;
+
+    @NotNull
+    private UUID brandId;
+
+    @NotNull
+    private DosageForm dosageForm;
 
     @NotBlank
     private String strength;
+
+    @NotBlank
+    private String packSize;
+
+    @NotNull
+    private BigDecimal mrp;
 
     @NotNull
     private Boolean prescriptionRequired;
 
     @NotBlank
     private String storageCondition;
-
-    @NotNull
-    private BigDecimal mrp;
-
-    @NotNull
-    private UUID categoryId;
-
-    @NotNull
-    private UUID manufacturerId;
 
 }

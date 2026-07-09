@@ -16,7 +16,7 @@ public class MedicineMapper {
                 .sku(medicine.getSku())
                 .barcode(medicine.getBarcode())
                 .category(medicine.getCategory().getName())
-                .manufacturer(medicine.getManufacturer().getName())
+                .manufacturer(medicine.getBrand().getManufacturer().getName())
                 .brand(medicine.getBrand().getName())
                 .dosageForm(medicine.getDosageForm().name())
                 .strength(medicine.getStrength())

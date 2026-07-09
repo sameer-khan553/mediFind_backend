@@ -41,4 +41,5 @@ public class MedicineResponse {
     private String storageCondition;
 
     private String status;
+
 }

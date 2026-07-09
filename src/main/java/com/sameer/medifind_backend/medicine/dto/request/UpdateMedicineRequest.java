@@ -27,9 +27,6 @@ public class UpdateMedicineRequest {
     private UUID categoryId;
 
     @NotNull
-    private UUID manufacturerId;
-
-    @NotNull
     private UUID brandId;
 
     @NotNull
@@ -49,4 +46,5 @@ public class UpdateMedicineRequest {
 
     @NotBlank
     private String storageCondition;
+
 }

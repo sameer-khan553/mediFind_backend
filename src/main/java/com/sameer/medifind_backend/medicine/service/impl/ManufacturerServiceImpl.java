@@ -6,6 +6,7 @@ import com.sameer.medifind_backend.medicine.dto.request.CreateManufacturerReques
 import com.sameer.medifind_backend.medicine.dto.response.ManufacturerResponse;
 import com.sameer.medifind_backend.medicine.entity.Manufacturer;
 import com.sameer.medifind_backend.medicine.mapper.ManufacturerMapper;
+import com.sameer.medifind_backend.medicine.mapper.MedicineMapper;
 import com.sameer.medifind_backend.medicine.repository.ManufacturerRepository;
 import com.sameer.medifind_backend.medicine.service.ManufacturerService;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
     private final ManufacturerRepository manufacturerRepository;
     private final ManufacturerMapper manufacturerMapper;
+    private final MedicineMapper medicineMapper;
 
     @Override
     public ManufacturerResponse create(CreateManufacturerRequest request) {

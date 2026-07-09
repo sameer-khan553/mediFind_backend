@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
 @Entity
 @Table(name = "medicines")
 public class Medicine extends BaseEntity {
@@ -21,53 +20,38 @@ public class Medicine extends BaseEntity {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
-    private String sku;
-
     @Column(nullable = false)
     private String genericName;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "brand_id", nullable = false)
-    private Brand brand;
+    @Column(nullable = false, unique = true)
+    private String sku;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private DosageForm dosageForm;
-
-    @Column(nullable = false, length = 50)
-    private String strength;
-
-    @Column(nullable = false)
-    private Boolean prescriptionRequired;
-
-    @Column(nullable = false)
-    private String storageCondition;
-
-    @Column(nullable = false, precision = 10, scale = 2)
-    private BigDecimal mrp;
+    @Column(nullable = false, unique = true)
+    private String barcode;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private MedicineCategory category;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "manufacturer_id")
-    private Manufacturer manufacturer;
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
 
+    @Enumerated(EnumType.STRING)
+    private DosageForm dosageForm;
+
+    private String strength;
+
+    private String packSize;
+
+    private BigDecimal mrp;
+
+    private Boolean prescriptionRequired;
+
+    private String storageCondition;
 
     @Enumerated(EnumType.STRING)
     @Builder.Default
-    @Column(nullable = false)
     private MedicineStatus status = MedicineStatus.ACTIVE;
-
-    @Column(nullable = false, unique = true)
-    private String barcode;
-
-    @Column(length = 20)
-    private String hsnCode;
-
-    @Column(nullable = false)
-    private String packSize;
 
 }
