@@ -23,4 +23,31 @@ public class SearchController {
                 searchService.searchByMedicine(medicine)
         );
     }
+
+    @GetMapping("/generic")
+    public ResponseEntity<List<MedicineSearchResponse>> searchByGeneric(
+            @RequestParam String genericName){
+
+        return ResponseEntity.ok(
+                searchService.searchByGenericName(genericName)
+        );
+    }
+
+    @GetMapping("/brand")
+    public ResponseEntity<List<MedicineSearchResponse>> searchByBrand(
+            @RequestParam String brand){
+
+        return ResponseEntity.ok(
+                searchService.searchByBrand(brand)
+        );
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<List<MedicineSearchResponse>> searchByCategory(
+            @RequestParam String category){
+
+        return ResponseEntity.ok(
+                searchService.searchByCategory(category)
+        );
+    }
 }

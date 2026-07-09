@@ -9,5 +9,9 @@ import java.util.UUID;
 public interface SearchRepository extends JpaRepository<Inventory, UUID> {
 
     List<Inventory> findByMedicine_NameContainingIgnoreCase(String medicineName);
+    List<Inventory> findByMedicine_GenericNameContainingIgnoreCase(String genericName);
 
+    List<Inventory> findByMedicine_Brand_NameContainingIgnoreCase(String brand);
+
+    List<Inventory> findByMedicine_Category_NameContainingIgnoreCase(String category);
 }

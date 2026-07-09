@@ -8,4 +8,10 @@ public interface SearchService {
 
     List<MedicineSearchResponse> searchByMedicine(String medicineName);
 
+    List<MedicineSearchResponse> searchByGenericName(String genericName);
+
+    List<MedicineSearchResponse> searchByBrand(String brand);
+
+    List<MedicineSearchResponse> searchByCategory(String category);
+
 }

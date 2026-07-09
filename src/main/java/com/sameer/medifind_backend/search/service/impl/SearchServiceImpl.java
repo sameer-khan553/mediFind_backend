@@ -15,26 +15,66 @@ public class SearchServiceImpl implements SearchService {
 
     private final SearchRepository searchRepository;
 
+    private MedicineSearchResponse mapToResponse(Inventory inventory){
+
+        return MedicineSearchResponse.builder()
+                .inventoryId(inventory.getId())
+                .medicineId(inventory.getMedicine().getId())
+                .medicineName(inventory.getMedicine().getName())
+                .genericName(inventory.getMedicine().getGenericName())
+                .brand(inventory.getMedicine().getBrand().getName())
+                .manufacturer(
+                        inventory.getMedicine()
+                                .getBrand()
+                                .getManufacturer()
+                                .getName()
+                )
+                .pharmacy(inventory.getPharmacy().getName())
+                .quantity(inventory.getQuantity())
+                .sellingPrice(inventory.getSellingPrice())
+                .discountPercentage(inventory.getDiscountPercentage())
+                .available(inventory.getQuantity() > 0)
+                .build();
+    }
+
     @Override
     public List<MedicineSearchResponse> searchByMedicine(String medicineName) {
 
-        List<Inventory> inventories =
-                searchRepository.findByMedicine_NameContainingIgnoreCase(medicineName);
+        return searchRepository
+                .findByMedicine_NameContainingIgnoreCase(medicineName)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
 
-        return inventories.stream()
-                .map(inventory -> MedicineSearchResponse.builder()
-                        .inventoryId(inventory.getId())
-                        .medicineId(inventory.getMedicine().getId())
-                        .medicineName(inventory.getMedicine().getName())
-                        .genericName(inventory.getMedicine().getGenericName())
-                        .brand(inventory.getMedicine().getBrand().getName())
-                        .manufacturer(inventory.getMedicine().getBrand().getManufacturer().getName())
-                        .pharmacy(inventory.getPharmacy().getName())
-                        .quantity(inventory.getQuantity())
-                        .sellingPrice(inventory.getSellingPrice())
-                        .discountPercentage(inventory.getDiscountPercentage())
-                        .available(inventory.getQuantity() > 0)
-                        .build())
+
+    @Override
+    public List<MedicineSearchResponse> searchByGenericName(String genericName) {
+
+        return searchRepository
+                .findByMedicine_GenericNameContainingIgnoreCase(genericName)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
+    @Override
+    public List<MedicineSearchResponse> searchByBrand(String brand) {
+
+        return searchRepository
+                .findByMedicine_Brand_NameContainingIgnoreCase(brand)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
+
+    @Override
+    public List<MedicineSearchResponse> searchByCategory(String category) {
+
+        return searchRepository
+                .findByMedicine_Category_NameContainingIgnoreCase(category)
+                .stream()
+                .map(this::mapToResponse)
                 .toList();
     }
 }
