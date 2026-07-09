@@ -1,9 +1,9 @@
 package com.sameer.medifind_backend.reservation.service.impl;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+
 import com.sameer.medifind_backend.exception.ResourceNotFoundException;
 import com.sameer.medifind_backend.inventory.entity.Inventory;
 import com.sameer.medifind_backend.inventory.repository.InventoryRepository;
+import com.sameer.medifind_backend.notification.service.NotificationService;
 import com.sameer.medifind_backend.reservation.dto.request.CreateReservationRequest;
 import com.sameer.medifind_backend.reservation.dto.response.ReservationResponse;
 import com.sameer.medifind_backend.reservation.entity.Reservation;
@@ -14,6 +14,8 @@ import com.sameer.medifind_backend.reservation.service.ReservationService;
 import com.sameer.medifind_backend.user.entity.User;
 import com.sameer.medifind_backend.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,14 +30,13 @@ public class ReservationServiceImpl implements ReservationService {
     private final InventoryRepository inventoryRepository;
     private final UserRepository userRepository;
     private final ReservationMapper reservationMapper;
+    private final NotificationService notificationService;
 
     @Override
     public ReservationResponse reserve(CreateReservationRequest request) {
 
         Authentication authentication =
-                org.springframework.security.core.context.SecurityContextHolder
-                        .getContext()
-                        .getAuthentication();
+                SecurityContextHolder.getContext().getAuthentication();
 
         String email = authentication.getName();
 
@@ -66,9 +67,15 @@ public class ReservationServiceImpl implements ReservationService {
                 .status(ReservationStatus.PENDING)
                 .build();
 
-        return reservationMapper.toResponse(
-                reservationRepository.save(reservation)
+        Reservation savedReservation = reservationRepository.save(reservation);
+
+        notificationService.sendReservationEmail(
+                savedReservation.getCustomer().getEmail(),
+                savedReservation.getInventory().getMedicine().getName(),
+                savedReservation.getQuantity()
         );
+
+        return reservationMapper.toResponse(savedReservation);
     }
 
     @Override
@@ -84,7 +91,8 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<ReservationResponse> getMyReservations() {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
 
         String email = authentication.getName();
 
@@ -119,9 +127,9 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservation.setStatus(ReservationStatus.CANCELLED);
 
-        return reservationMapper.toResponse(
-                reservationRepository.save(reservation)
-        );
+        Reservation savedReservation = reservationRepository.save(reservation);
+
+        return reservationMapper.toResponse(savedReservation);
     }
 
     @Override
@@ -133,9 +141,9 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservation.setStatus(ReservationStatus.CONFIRMED);
 
-        return reservationMapper.toResponse(
-                reservationRepository.save(reservation)
-        );
+        Reservation savedReservation = reservationRepository.save(reservation);
+
+        return reservationMapper.toResponse(savedReservation);
     }
 
     @Override
@@ -147,8 +155,8 @@ public class ReservationServiceImpl implements ReservationService {
 
         reservation.setStatus(ReservationStatus.COLLECTED);
 
-        return reservationMapper.toResponse(
-                reservationRepository.save(reservation)
-        );
+        Reservation savedReservation = reservationRepository.save(reservation);
+
+        return reservationMapper.toResponse(savedReservation);
     }
 }
