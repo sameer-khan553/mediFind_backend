@@ -9,6 +9,8 @@ import java.util.UUID;
 public interface InventoryRepository
         extends JpaRepository<Inventory, UUID> {
 
+    boolean existsByBatchNumber(String batchNumber);
+
     List<Inventory> findByPharmacyId(UUID pharmacyId);
 
     List<Inventory> findByMedicineId(UUID medicineId);

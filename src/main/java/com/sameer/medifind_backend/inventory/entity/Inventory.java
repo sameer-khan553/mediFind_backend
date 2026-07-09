@@ -55,4 +55,11 @@ public class Inventory extends BaseEntity {
     @Builder.Default
     private InventoryStatus status = InventoryStatus.IN_STOCK;
 
+    @Column(nullable = false)
+    private Double discountPercentage;
+
+
+    @Column(nullable = false)
+    private BigDecimal purchasePrice;
+
 }
