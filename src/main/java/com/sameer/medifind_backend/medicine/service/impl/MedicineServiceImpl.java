@@ -13,6 +13,9 @@ import com.sameer.medifind_backend.medicine.repository.MedicineCategoryRepositor
 import com.sameer.medifind_backend.medicine.repository.MedicineRepository;
 import com.sameer.medifind_backend.medicine.service.MedicineService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -75,13 +78,15 @@ public class MedicineServiceImpl implements MedicineService {
     }
 
     @Override
-    public List<MedicineResponse> getAll() {
+    public Page<MedicineResponse> getAll(int page, int size) {
 
-        return medicineRepository.findAll()
-                .stream()
-                .map(medicineMapper::toResponse)
-                .toList();
+        Pageable pageable = PageRequest.of(page, size);
+
+        return medicineRepository
+                .findAll(pageable)
+                .map(medicineMapper::toResponse);
     }
+
     @Override
     public void delete(UUID id) {
 
